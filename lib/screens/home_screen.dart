@@ -52,9 +52,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       
       if (_numberOfPeople > 0 && _totalAmount > 0) {
         // TODO: BEGINNER ISSUE #2 - Round off to 2 decimal places
-        // Current calculation doesn't round properly
+        // Solution: Apply selected tip and round to currency
+        // - Compute totalWithTip using _tipPercentage
+        // - Round both totalWithTip and per-person amount to 2 decimals
+        //   via (value * 100).roundToDouble() / 100 to avoid float artifacts
         double totalWithTip = _totalAmount + (_totalAmount * _tipPercentage / 100);
-        _perPersonAmount = totalWithTip / _numberOfPeople;
+        totalWithTip = (totalWithTip * 100).roundToDouble() / 100;
+        _perPersonAmount = (totalWithTip / _numberOfPeople * 100).roundToDouble() / 100;
         _showResult = true;
       }
     });
